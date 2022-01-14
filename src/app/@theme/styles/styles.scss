@@ -1,0 +1,120 @@
+@import 'google';
+
+// themes - our custom or/and out of the box themes
+@import 'themes';
+
+// framework component themes (styles tied to theme variables)
+@import '~@nebular/theme/styles/globals';
+@import '~@nebular/auth/styles/globals';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/grid';
+
+// loading progress bar theme
+@import './pace.theme';
+
+@import './layout';
+@import './overrides';
+
+// install the framework and custom global styles
+@include nb-install() {
+
+  // framework global styles
+  @include nb-theme-global();
+  @include nb-auth-global();
+
+  @include ngx-layout();
+  // loading progress bar
+  @include ngx-pace-theme();
+
+  @include nb-overrides();
+
+  .registraId{
+    background: #0C343D !important;
+    color: #FFFFFF !important;
+    box-shadow: 4px 4px 8px 0px #848484 !important;
+    border: 2px solid #0C343D !important;
+  }
+  .registraId:hover {
+    background: #34abc5 !important;
+    border: 2px solid #34abc5 !important;
+  }
+  .registraId[disabled]{
+    background-color: rgb(238, 232, 232) !important;
+    color: #d6d6d6 !important;
+  }
+  .registraId:enabled:active {
+    background-color: #FFFFFF !important;
+    color: #34abc5 !important;
+    border: 2px solid #34abc5 !important;
+  }
+  .accedi{
+    background: #228099 !important;
+    color: #FFFFFF !important;
+    box-shadow: 4px 4px 8px 0px #848484 !important;
+    border: 2px solid #228099 !important;
+  }
+  .accedi:hover {
+    background: #42bfe0 !important;
+    border: 2px solid #42bfe0 !important;
+  }
+  .accedi[disabled]{
+    background-color: rgb(238, 232, 232) !important;
+    color: #d6d6d6 !important;
+  }
+  .accedi:enabled:active {
+    background-color: #FFFFFF !important;
+    color: #42bfe0 !important;
+    border: 2px solid #42bfe0 !important;
+  }
+  .fineRaccolta{
+    background: #990000 !important;
+    color: #FFFFFF !important;
+    box-shadow: 4px 4px 8px 0px #848484 !important;
+    border: 2px solid #990000 !important;
+  }
+  .fineRaccolta:hover {
+    background: #d81616 !important;
+    border: 2px solid #d81616 !important;
+  }
+  .fineRaccolta[disabled]{
+    background-color: rgb(238, 232, 232) !important;
+    color: #d6d6d6 !important;
+  }
+  .fineRaccolta:enabled:active {
+    background-color: #FFFFFF !important;
+    color: #d81616 !important;
+    border: 2px solid #d81616 !important;
+  }
+  .avvioRaccolta{
+    background: #398812 !important;
+    color: #FFFFFF !important;
+    box-shadow: 4px 4px 8px 0px #848484 !important;
+    border: 2px solid #398812 !important;
+  }
+  .avvioRaccolta:hover {
+    background: #5ece28 !important;
+    border: 2px solid #5ece28 !important;
+  }
+  .avvioRaccolta[disabled]{
+    background-color: rgb(238, 232, 232) !important;
+    color: #d6d6d6 !important;
+  }
+  .avvioRaccolta:enabled:active {
+    background-color: #FFFFFF !important;
+    color: #5ece28 !important;
+    border: 2px solid #5ece28 !important;
+  }
+  label{
+    color: #0C343D !important;
+    font-family: sans-serif !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+  }
+};
+
+  ::ng-deep.layout-container.content nb-layout-footer{
+    background-color: #EEEEEE !important;
+  }

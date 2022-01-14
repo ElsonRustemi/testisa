@@ -1,0 +1,52 @@
+<div class="flex justify-content-center m-5">
+  <div class="flex justify-content-between border-0 w-full h-4rem border-round shadow-3">
+    <div class="p-text-left text-xl m-3" style="font-family: sans-serif;">Analyze CF (Risk Profile)</div>
+  </div>
+</div>
+
+<div class="m-5">
+
+  <div class="flex justify-content-center">
+
+    <div class=" border-round shadow-5 w-full h-full">
+
+      <div class="m-5">
+        <h5 style="font-family: sans-serif;">Risk Profile Number N</h5>
+        <h5 style="font-family: sans-serif;">Results: Lorem Ipsum</h5>
+        <h5 style="font-family: sans-serif;">Alerts: Lorem Ipsum</h5>
+      </div>
+
+      <div class="flex flex-row flex-wrap justify-content-center card-container m-2">
+        <div class="w-30rem">
+          <p-chart type="line" [data]="basicData"></p-chart>
+          <p class="ml-4" style="font-family: sans-serif;">Chart 1</p>
+        </div>
+
+        <div class="w-30rem">
+          <p-chart type="doughnut" [data]="data"></p-chart>
+          <p class="ml-8" style="font-family: sans-serif;">Chart 2</p>
+        </div>
+      </div>
+
+
+      <div class="m-8" style="font-family: sans-serif;">
+        It is a long established fact that a reader will be distracted by the readable content of a page when looking at
+        its
+        layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
+        to
+        using
+        'Content here, content here', making it look like readable English. Many desktop publishing packages and web
+        page
+        editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web
+        sites
+        still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on
+        purpose
+        (injected humour and the like).
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<router-outlet></router-outlet>

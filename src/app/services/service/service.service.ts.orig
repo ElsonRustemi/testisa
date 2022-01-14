@@ -1,0 +1,453 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { UsersModel } from 'src/app/models/generic/usersModel';
+import { formatDate } from '@angular/common';
+import { Struttura } from 'src/app/models/generic/struttura';
+import { Delega } from 'src/app/models/generic/delega';
+import { Azienda } from 'src/app/models/generic/azienda';
+
+import { CONST } from 'src/shared/constants';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ServiceService {
+  private auth = 'donato.tarantino:donato'
+
+  constructor(private http: HttpClient) { }
+
+  uploadDocument(myFile: File, firma, istanza, checklist, campo, utente, scope) {
+    let formData: FormData = new FormData();
+    formData.append('uploadfile', myFile);
+    formData.append('mailDestinatario	', 'simonedelorenzis@icloud.com');
+    formData.append('id_istanza', istanza);
+    formData.append('checklist', checklist);
+    formData.append('nome_campo_checklist', campo);
+    formData.append('id_utente', utente);
+    formData.append('titolo', 'titolo');
+    formData.append('descrizione', 'descrizione');
+    formData.append('id_fascicolo', 'db1aeb6c-bccf-4314-944e-2e2afd77e3d3');
+    formData.append('id_genera', '81b5d2e5-5750-41cb-8052-f9d0961fa0db');
+    formData.append('scope', scope);
+
+
+    let headers = new Headers();
+
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+    //let options = new RequestOptions({ headers: headers })
+    return this.http.post(CONST.urlroot_misb_service + 'uploadDocument?verifyDigitalSignature=' + firma, formData);
+
+  }
+
+  addDelega(delega: Delega) {
+    let params: FormData = new FormData();
+    params.append('listStruttureSanitarie', delega.listStruttureSanitarie.toString());
+    params.append('id_istanza', delega.id_istanza);
+    params.append('id_utente_delegante', delega.id_utente_delegante);
+    params.append('listDelegati', delega.listDelegati.toString());
+    params.append('listTask', delega.listTask.toString());
+    params.append('da', delega.da.toString());
+    params.append('a', delega.a.toString());
+
+    return this.http.post(CONST.urlroot_misb_service + 'addDelega', params);
+  }
+
+  downloadFile(myFile: string) {
+    return this.http.get(CONST.urlroot_download_service + 'doDownload?file_name=allegato3Template.pdf', { responseType: 'arraybuffer' })
+    /* .subscribe(data => {
+           console.log(data);
+   });*/
+    //return this.http.get(CONST.urlroot_download_service+'doDownload', {params: {file_name: myFile}});
+
+    /* this.http.get(CONST.urlroot_download_service+'doDownload?file_name=allegato3Template.pdf',{
+       responseType: 'arraybuffer',headers:headers} 
+      ).subscribe(response => this.downLoadFile(response, "application/pdf"));*/
+  }
+
+  getPDF() {
+    const url = CONST.urlroot_download_service + 'doDownload?file_name=allegato3Template.pdf';
+    const httpOptions = {
+      // 'responseType'  : 'arraybuffer' as 'json'
+      'responseType': 'blob' as 'json'        //This also worked
+    };
+
+    return this.http.get<any>(url, httpOptions);
+
+  }
+
+  getAllNotifiche(): any {
+    return this.http.get(CONST.urlroot_notification_service + 'api/messages')
+  }
+
+  verifyAccount(email, otp) {
+    var body = {
+      email: email,
+      otpString: otp
+    }
+    let formData: FormData = new FormData();
+    formData.append('email', email);
+    formData.append('otpString', otp);
+    return this.http.get(CONST.urlroot_misb_service + 'verifyAccount?email=' + email + '&otpString=' + otp);
+  }
+
+  registraUtente(utente: UsersModel) {
+    // utente.dataNascita = new Date().getTime()
+    return this.http.post(CONST.urlroot_misb_service + 'registerNewAccount', utente);
+  }
+
+  censisciStruttura(struttura: Struttura) {
+    // utente.dataNascita = new Date().getTime()
+    return this.http.post(CONST.urlroot_misb_service + 'registerNewStruttura', struttura);
+  }
+
+  updateAzienda(azienda: Azienda) {
+    var aziendaFine = {
+      id: null,
+      ragione_sociale: azienda.ragioneSociale,
+      codice_fiscale: azienda.codiceFiscale,
+      partita_iva: azienda.partitaIva,
+      sede_legale: azienda.sedeLegale,
+      numero_rea: azienda.numeroRea,
+      capitale_sociale: azienda.capitaleSociale,
+      paese: azienda.paese,
+      pec: azienda.pec,
+      email: azienda.email,
+      telefono: azienda.telefono,
+      precedente: null,
+      sostituitail: null,
+      creatail: null,
+      eliminatail: null,
+      eliminatada: null,
+      id_forma_giuridica: azienda.formaGiuridica,
+      attoNotarile: azienda.attoNotarile,
+      notaio: azienda.notaio,
+      dataAtto: azienda.dataAtto,
+      comune_sede_legale: azienda.comune_sede_legale,
+      provincia_sede_legale: azienda.provincia_sede_legale,
+      cap_sede_legale: azienda.cap_sede_legale
+    }
+    console.log(JSON.stringify(aziendaFine))
+    return this.http.post(CONST.urlroot_misb_service + 'updateAzienda?id_azienda=' + azienda.id, aziendaFine);
+  }
+// getUserInfo(username, password){
+//   return this.http.get(CONST.urlroot_misb_service+'getUserInfo?username=' + username + '&password=' + password)
+createAzienda(azienda: Azienda, utente, rapp) {
+  // utente.dataNascita = new Date().getTime()
+  var aziendaFine = {
+    id: null,
+    ragione_sociale: azienda.ragioneSociale,
+    codice_fiscale: azienda.codiceFiscale,
+    partita_iva: azienda.partitaIva,
+    sede_legale: azienda.sedeLegale,
+    numero_rea: azienda.numeroRea,
+    capitale_sociale: azienda.capitaleSociale,
+    paese: azienda.paese,
+    pec: azienda.pec,
+    email: azienda.email,
+    telefono: azienda.telefono,
+    precedente: null,
+    sostituitail: null,
+    creatail: null,
+    eliminatail: null,
+    eliminatada: null,
+    id_forma_giuridica: azienda.formaGiuridica,
+    attoNotarile: azienda.attoNotarile,
+    notaio: azienda.notaio,
+    dataAtto: azienda.dataAtto,
+    comune_sede_legale: azienda.comune_sede_legale,
+    provincia_sede_legale: azienda.provincia_sede_legale,
+    cap_sede_legale: azienda.cap_sede_legale
+  };
+  console.log(JSON.stringify(aziendaFine))
+  return this.http.post(CONST.urlroot_misb_service + 'createAzienda?id_rappresentante_legale=' + rapp + '&id_utente=' + utente, aziendaFine);
+}
+
+// getUserInfo(username, password) {
+//   return this.http.get(CONST.urlroot_misb_service + 'getUserInfo?username=' + username + '&password=' + password)
+// updateAzienda(azienda: Azienda) {
+//   var aziendaFine = {
+//     id: null,
+//     ragione_sociale: azienda.ragioneSociale,
+//     codice_fiscale: azienda.codiceFiscale,
+//     partita_iva: azienda.partitaIva,
+//     sede_legale: azienda.sedeLegale,
+//     numero_rea: azienda.numeroRea,
+//     capitale_sociale: azienda.capitaleSociale,
+//     paese: azienda.paese,
+//     pec: azienda.pec,
+//     email: azienda.email,
+//     telefono: azienda.telefono,
+//     precedente: null,
+//     sostituitail: null,
+//     creatail: null,
+//     eliminatail: null,
+//     eliminatada: null,
+//     id_forma_giuridica: azienda.formaGiuridica,
+//     attoNotarile: azienda.attoNotarile,
+//     notaio: azienda.notaio,
+//     dataAtto: azienda.dataAtto,
+//     comune_sede_legale: azienda.comune_sede_legale,
+//     provincia_sede_legale: azienda.provincia_sede_legale,
+//     cap_sede_legale: azienda.cap_sede_legale
+//   }
+//   console.log(JSON.stringify(aziendaFine))
+//   return this.http.post(CONST.urlroot_misb_service + 'updateAzienda?id_azienda=' + azienda.id, aziendaFine);
+
+// }
+getUserInfo(username, password) {
+  return this.http.get(CONST.urlroot_misb_service + 'getUserInfo?username=' + username + '&password=' + password)
+}
+getAdminInfo(username, password) {
+  return this.http.get(CONST.urlroot_misb_service + 'getAdminInfo?username=' + username + '&password=' + password)
+}
+getUtenti() {
+  return this.http.get(CONST.urlroot_misb_service + 'getUtenti')
+}
+getAllProvince() {
+  return this.http.get(CONST.urlroot_misb_service + 'province')
+}
+getAllComuni(provincia) {
+  return this.http.get(CONST.urlroot_misb_service + 'comuniByProvincia?provincia=' + provincia)
+}
+getTraduzioneCodiceCatastaleByComuneAndByProvincia(comune, provincia) {
+  return this.http.get(CONST.urlroot_misb_service + 'traduzioneCodiceCatastaleByComuneAndByProvincia?comune=' + comune + '&provincia=' + provincia)
+}
+getAllStruttureSanitarie() {
+  return this.http.get(CONST.urlroot_misb_service + 'strutture')
+}
+getStrutturaeSanitariaById(id) {
+  return this.http.get(CONST.urlroot_misb_service + 'strutturaById?id=' + id)
+}
+getAllRuoli() {
+  return this.http.get(CONST.urlroot_misb_service + 'getRuoli')
+}
+getAllAziende() {
+  return this.http.get(CONST.urlroot_misb_service + 'getAziende')
+}
+getAllTask() {
+  return this.http.get(CONST.urlroot_misb_service + 'getTask')
+}
+tasksByUser(username) {
+  return this.http.get(CONST.urlroot_misb_service + 'TasksByUser?username=' + username);
+}
+tasksLandingByUser(codiceFiscale, camunda_id) {
+  return this.http.get(CONST.urlroot_misb_service + 'TasksLandingByUser?codiceFiscale=' + codiceFiscale + '&camundaId=' + camunda_id);
+}
+
+tasksByGroup(candidateGroups, processInstanceId) {
+  return this.http.get(CONST.urlroot_misb_service + 'TasksByGroup?candidateGroups=' + candidateGroups + '&processInstanceId=' + processInstanceId)
+}
+tasksByGroupWithoutInstance(candidateGroups) {
+  return this.http.get(CONST.urlroot_misb_service + 'TasksByGroupWithoutInstance?candidateGroups=' + candidateGroups)
+}
+landingEndPointMisb(processId, instanceId, taskId, taskDocumentation) {
+  return this.http.post(CONST.urlroot_misb_service + 'landingEndPointMisb?processId=' + processId + '&instanceId=' + instanceId + '&taskId=' + taskId + '&taskDocumentation=' + taskDocumentation, {});
+}
+claimTaskToUser(taskId, userid) {
+  return this.http.post(CONST.urlroot_misb_service + 'ClaimTaskToUser?task=' + taskId + '&user=' + userid, {});
+}
+unClaimTaskToUser(taskId, userid) {
+  return this.http.post(CONST.urlroot_misb_service + 'UnClaimTaskToUser?task=' + taskId + '&user=' + userid, {});
+}
+
+getFile(instanceId, filename) {
+  const httpOptions = {
+    'responseType': 'arraybuffer' as 'json'
+    //'responseType'  : 'blob' as 'json'        //This also worked
+  };
+  return this.http.get<any>(CONST.urlroot_misb_service + 'getFile?instanceId=' + instanceId + '&filename=' + filename, httpOptions)
+}
+
+getFormeGiuridiche() {
+  return this.http.get(CONST.urlroot_misb_service + 'getFormeGiuridiche');
+}
+getAllAmbiti() {
+  return this.http.get(CONST.urlroot_misb_service + 'ambitoTerritoriale');
+}
+getAllTipoStrutture() {
+  return this.http.get(CONST.urlroot_misb_service + 'tipoStruttura');
+}
+
+getStruttureByAziendaId(id_azienda) {
+  return this.http.get(CONST.urlroot_misb_service + 'struttureByAziendaId?id_azienda=' + id_azienda)
+}
+
+getAziendeByLegaleId(legale){
+  return this.http.get(CONST.urlroot_misb_service + 'getAziendeByLegaleId?id_legale=' + legale)
+}
+getDelegantiByTaskIdByDelegatoIdUsing(task, delegato) {
+  return this.http.get(CONST.urlroot_misb_service + 'delegantiByTaskIdByDelegatoId?id_task=' + task + '&id_delegato=' + delegato)
+}
+getLoginStruttura(pin, link) {
+  let params: FormData = new FormData();
+  params.append('pin', pin);
+  params.append('link', link);
+  return this.http.get(CONST.urlroot_misb_service + 'loginStruttura?pin=' + pin + '&link=' + link)
+}
+
+addIncarico(incarico) {
+
+  var body = {
+    a: '',
+    da: '',
+    postGresId: '',
+    stato: ''
+  }
+
+  return this.http.post(CONST.urlroot_misb_service + 'utenteIncaricoIstanza?id_utente=' + incarico.utente + '&id_istanza=' + incarico.istanza + '&id_incarico=' + incarico.incarico, body);
+}
+
+addAppartiene(appartiene) {
+  var body = {
+    a: '',
+    da: '',
+    postGresId: '',
+    stato: ''
+  }
+
+  return this.http.post(CONST.urlroot_misb_service + 'addAppartiene?id_utente=' + appartiene.utente + '&id_azienda=' + appartiene.azienda + '&id_ruolo=' + appartiene.ruolo, body);
+}
+
+checkIfExistAzienda(piva) {
+  return this.http.get(CONST.urlroot_misb_service + 'checkIfExistAzienda?codFisOrPartitaIva=' + piva)
+}
+
+getFascicoloUser(user) {
+  return this.http.get(CONST.urlroot_misb_service + 'fascicoloUtenteById?id=' + user)
+}
+invitation(user, userLogged, idUserLogged) {
+  return this.http.get(CONST.urlroot_misb_service + 'invitation?emailUser=' + user.email + '&incarico=' + user.ruolo + '&ambito=' + user.ambito + '&userLogged=' + userLogged + '&idUserLogged=' + idUserLogged + '&instanceId=' + user.istanza)
+}
+checkInvitation(email, otp) {
+  return this.http.get(CONST.urlroot_misb_service + 'checkInvitation?emailUser=' + email + '&otpString=' + otp)
+}
+appartieneByIdAzienda(azienda) {
+  return this.http.get(CONST.urlroot_misb_service + 'appartieneByIdAzienda?id_azienda=' + azienda)
+}
+getCap(provincia, comune) {
+  return this.http.get(CONST.urlroot_misb_service + 'capByComuneAndProvincia?provincia=' + provincia + '&comune=' + comune)
+}
+getAllProcessi() {
+  return this.http.get(CONST.urlroot_misb_service + 'getProcessi')
+}
+getIstanzeByProcesso(processo) {
+  return this.http.get(CONST.urlroot_misb_service + 'checklistByProcesso?id_processo=' + processo)
+}
+
+getIstanze() {
+  return this.http.get(CONST.urlroot_misb_service + 'istanze')
+}
+
+
+addIstanza(creatada,
+  id_processo,
+  id_checklist,
+  id_strutturaSanitaria,
+  id_stato,
+  precedente,
+  id_tariffarioregionale,
+  id_fascicolo) {
+
+  var body = {
+    "creatail": "2020-06-09",// new Date().getFullYear().toString()+'-'+(new Date().getMonth()+1).toString()+'-'+new Date().getDate().toString(),
+    "esito": "Approvato",
+    "fascicoloCartaceo": "string"
+  }
+  return this.http.post(CONST.urlroot_misb_service + 'addIstanza?creatada=' + creatada +
+    '&id_processo=' + id_processo +
+    '&id_checklist=' + id_checklist +
+    '&id_strutturaSanitaria=' + id_strutturaSanitaria +
+    '&id_stato=' + id_stato +
+    '&precedente=' + precedente +
+    '&id_tariffarioregionale=' + id_tariffarioregionale +
+    '&id_fascicolo=' + id_fascicolo, body);
+
+}
+
+getChecklist(processo, istanza) {
+  return this.http.get(CONST.urlroot_misb_service + 'checklistByProcessoIdByIstanzaId?id_processo=' + processo + '&id_istanza=' + istanza)
+}
+deleteUtente(utente, utenteLoggato) {
+  var body = {}
+  return this.http.post(CONST.urlroot_misb_service + 'deleteAccountById?id=' + utente + '&eliminatoDa=' + utenteLoggato, body);
+}
+getCheckList() {
+  return this.http.get(CONST.urlroot_misb_service + 'checklist')
+}
+getCheckListByProcessoIdByIstanzaId(processo, istanza) {
+  return this.http.get(CONST.urlroot_misb_service + 'checklistByProcessoIdByIstanzaId?id_processo=' + processo + "&id_istanza=" + istanza)
+}
+getCheckListById(id) {
+  return this.http.get(CONST.urlroot_misb_service + 'checklistById?id=' + id)
+}
+getModelli() {
+  return this.http.get(CONST.urlroot_misb_service + 'modelli')
+}
+getAllIncarichi() {
+  return this.http.get(CONST.urlroot_misb_service + 'incarico')
+}
+getAllIstanze() {
+  return this.http.get(CONST.urlroot_misb_service + 'istanze')
+}
+setIncaricoUtenteIstanza(id_utente, id_istanza, id_incarico, postGresId) {
+  var body = {
+    "a": '',
+    "da": '',
+    "postGresId": postGresId
+  }
+  return this.http.post(CONST.urlroot_misb_service + 'utenteIncaricoIstanza?id_utente=' + id_utente + '&id_istanza=' + id_istanza + '&id_incarico=' + id_incarico, body);
+}
+
+
+insertOperatorOrAdministrator(user, email, otp, data) {
+  var body = {
+    username: user.username,
+    password: user.password,
+    nome: user.nome,
+    cognome: user.cognome,
+    telefono: user.telefono,
+    interno: user.interno,
+    cellulare: user.cellulare,
+    ambito: data.ambito,
+    ruolo: data.ruolo,
+    userLogged: data.idUserLogger,
+    codiceFiscale: user.cf
+  }
+  return this.http.post(CONST.urlroot_misb_service + 'insertOperatorOrAdministrator?otpString=' + otp + '&emailUser=' + email, body)
+}
+createReport(report) {
+  return this.http.post(CONST.urlroot_misb_service + 'createReport?id_utente=' + report.utente + '&id_azienda=' + report.azienda + '&id_ruolo=' + report.ruolo + '&id_struttura=' + report.struttura + '&modello=' + report.modello + '&nomeFile=' + report.nomeFile, {})
+}
+
+report(id_appartiene, id_struttura) {
+  return this.http.post(CONST.urlroot_misb_service + 'report?id_appartiene=' + id_appartiene + '&id_struttura=' + id_struttura, {})
+}
+
+incaricoByUtenteIdByIstanzaId(userId, instanceId) {
+  return this.http.get(CONST.urlroot_misb_service + 'incaricoByUtenteIdByIstanzaId?instanceId=' + instanceId + '&userId=' + userId)
+}
+incaricoByUtenteId(userId) {
+  return this.http.get(CONST.urlroot_misb_service + 'incaricoByUtenteId?userId=' + userId);
+}
+
+createReportPDF(pathModel, outputFileName, jsonString) {
+  return this.http.post(CONST.urlroot_report_service + 'createReport?pathModel=' + pathModel + '&outputFileName=' + outputFileName, jsonString)
+}
+salvaBozza(form, user, istanza, nomeForm) {
+  let params: FormData = new FormData();
+  params.append('userId', user);
+  params.append('istanceId', istanza);
+  params.append('formId', nomeForm);
+  return this.http.post(CONST.urlroot_misb_service + 'saveAsDrafts?userId=' + user + '&instanceId=' + istanza + '&formId=' + nomeForm, form)
+}
+getBozza(istanza, user, form) {
+  return this.http.get(CONST.urlroot_misb_service + 'getDrafts?userId=' + user + '&instanceId=' + istanza + '&formId=' + form)
+}
+getAllOperatori(istanza, incarico) {
+  return this.http.get(CONST.urlroot_misb_service + 'utenteByInstanceIdByIncaricoType?instance_id=' + istanza + '&incaricoType=' + incarico)
+}
+getIstanza(istanza){
+  return this.http.get(CONST.urlroot_misb_service + 'istanzaById?id=' + istanza)
+}
+}

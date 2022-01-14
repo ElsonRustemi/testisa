@@ -1,0 +1,51 @@
+<div class="flex justify-content-center m-4">
+  <div class="flex justify-content-between border-0 w-full h-4rem border-round shadow-3">
+    <div class="p-text-left text-xl m-3" style="font-family: sans-serif;">Comparison Reports</div>
+  </div>
+</div>
+
+<div class="flex justify-content-center">
+  <div class="border-0 w-full border-round shadow-5 m-4">
+    <p-table #dt1 [value]="testData" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" autoLayout="true" responsiveLayout="stack" [resizableColumns]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="rowsPerPage"
+    [globalFilterFields]="['reportNum', 'data', 'custom', 'details']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center flex justify-content-between">
+          <div class="mt-2">Comparison Report</div>
+          <div>
+            <span class="p-input-icon-left p-ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search keyword" />
+            </span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="font-family: sans-serif;">Report Num.<p-sortIcon field="reportNum"></p-sortIcon></th>
+          <th style="font-family: sans-serif;">Data<p-sortIcon field="data"></p-sortIcon></th>
+          <th style="font-family: sans-serif;">Custom<p-sortIcon field="custom"></p-sortIcon></th>
+          <th style="font-family: sans-serif;">Detail<p-sortIcon field="detail"></p-sortIcon></th>
+          <th style="font-family: sans-serif;">View</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td style="font-family: sans-serif;">{{data.reportNum}}</td>
+          <td style="font-family: sans-serif;">{{data.data}}</td>
+          <td style="font-family: sans-serif;">{{data.custom}}</td>
+          <td style="font-family: sans-serif;">{{data.details}}</td>
+          <td style="font-family: sans-serif;"><button pButton label="View"></button></td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+

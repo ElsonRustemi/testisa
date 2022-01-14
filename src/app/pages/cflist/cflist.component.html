@@ -1,0 +1,218 @@
+<!-- <div class="flex justify-content-center m-2">
+  <div class="flex justify-content-between border-0 w-11 h-4rem border-round shadow-5">
+    <div class="p-text-left text-xl m-3" style="font-family: sans-serif;">Comparison Reports</div>
+  </div>
+</div> -->
+
+<div class="flex justify-content-center mt-6">
+
+  <div class="border-0 w-full border-round shadow-5 m-5">
+    <p-table #dt1 [value]="testCFData" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" autoLayout="true" responsiveLayout="stack" [resizableColumns]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="rowsPerPage" (onPageChange)="paginate($event)"
+    [globalFilterFields]="['declarationCode']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center flex justify-content-between">
+          <div class="mt-2">CF List</div>
+          <div class="field grid">
+            <!-- <button class="mr-2 p-button-secondary" pButton label="Compare Selected" [routerLink]="['/pages/home/comparecf']"></button> -->
+            <span class="p-input-icon-left p-ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search keyword" />
+            </span>
+          </div>
+        </div>
+      </ng-template>
+      <!-- <ng-template pTemplate="caption">
+        <div class="p-d-flex flex flex-row-reverse">
+          <span class="p-input-icon-left p-ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')"
+              placeholder="Search keyword" />
+          </span>
+        </div>
+      </ng-template> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="font-family: sans-serif;">
+            Select CF <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <!-- <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th> -->
+          <th pResizableColumn style="font-family: sans-serif;" pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
+          <th pResizableColumn style="font-family: sans-serif;" pSortableColumn="date">Date<p-sortIcon field="date"></p-sortIcon></th>
+          <th pResizableColumn style="font-family: sans-serif;" pSortableColumn="data">Declaration Code<p-sortIcon field="data"></p-sortIcon></th>
+          <th pResizableColumn style="font-family: sans-serif;" pSortableColumn="custom">Loading List<p-sortIcon field="custom"></p-sortIcon></th>
+          <th pResizableColumn style="font-family: sans-serif;" pSortableColumn="detail">Total Package<p-sortIcon field="detail"></p-sortIcon></th>
+          <th pResizableColumn style="font-family: sans-serif;">View</th>
+          <!-- <th pResizableColumn style="font-family: sans-serif;">Compare</th> -->
+          <!-- <th pResizableColumn style="font-family: sans-serif;">Analyze</th> -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cfdata>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="cfdata" (click)="getCfDataId(cfdata)"></p-tableCheckbox>
+          </td>
+          <td style="font-family: sans-serif;">{{cfdata.uniqueId}}</td>
+          <td style="font-family: sans-serif;">{{cfdata.date}}</td>
+          <td style="font-family: sans-serif;">{{cfdata.declarationCode}}</td>
+          <td style="font-family: sans-serif;">{{cfdata.loadingList}}</td>
+          <td style="font-family: sans-serif;">{{cfdata.totalPackage}}</td>
+          <td style="font-family: sans-serif;"><button class="p-button-info" (click)="showDialog()" pButton label="View"></button></td>
+          <!-- <td style="font-family: sans-serif;"><button class="p-button-secondary" pButton label="Compare" [routerLink]="['/pages/comparecf']"></button></td> -->
+          <!-- <td style="font-family: sans-serif;"><button class="p-button-success" pButton label="Analyze" [routerLink]="['/pages/home/analyzecf']"></button></td> -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+        <!-- <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button> -->
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+          <!-- <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button> -->
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="flex flex-row-reverse flex-wrap card-container mr-8">
+  <div class="flex align-items-center justify-content-center">
+    <button class="mr-4 p-button-success" pButton label="Analyze" [routerLink]="['/pages/home/analyzecf']"></button>
+  </div>
+  <div class="flex align-items-center justify-content-center">
+    <button class="mr-4 p-button-secondary" pButton label="Compare Selected" [routerLink]="['/pages/home/comparecf']"></button>
+  </div>
+</div>
+
+<!-- <button class="mr-2 p-button-secondary" pButton label="Compare Selected" [routerLink]="['/pages/comparecf']"></button> -->
+
+
+<!-- <div class="m-4">
+  <button pButton label="Compare Selected"></button>
+</div> -->
+
+
+<!-- <router-outlet></router-outlet> -->
+
+<!-- <p-button (click)="showBasicDialog2()" icon="pi pi-external-link" label="Long Content"></p-button> -->
+<p-dialog header="CF Selezionata"  [(visible)]="display" [style]="{width: '80vw'}" [baseZIndex]="10000">
+
+  <div class="flex justify-content-center">
+    <div class="w-full h-full shadow-5" style="border-radius: 20px;">
+      <div class=" m-4">
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Declaration Code</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Loading List</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Total Packages</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Country of Departure</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Country of Transit</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Country of Destination</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Place of Loading</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Gross Mass (Kg)</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Net Mass (Kg)</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Value</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Container No (BIC Code)</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Driver Compartment Plate</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Trailer Plate</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Seal Number</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Risk Index</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="firstname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Vessel IMO Code</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield w-full" placeholder="lorem ipsum">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0">Scanne Image</label>
+          <div class="col-12 md:col-10">
+            <img class="w-12rem" [src]="'assets/images/default.png'" alt="">
+          </div>
+        </div>
+
+        <div class="flex justify-content-center">
+          <button pButton class="p-button-secondary m-2" label="Compare"></button>
+          <button pButton class="p-button-success m-2" label="Analyze"></button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="display=false" label="Close window" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

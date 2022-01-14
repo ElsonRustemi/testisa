@@ -1,0 +1,22 @@
+.homeButton{
+    background: #228099 !important;
+    color: #FFFFFF !important;
+    box-shadow: 4px 4px 8px 0px #848484 !important;
+    border: 2px solid #228099 !important;
+    width: 50%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  .homeButton:hover {
+    background: #42bfe0 !important;
+    border: 2px solid #42bfe0 !important;
+  }
+  .homeButton[disabled]{
+    background-color: rgb(238, 232, 232) !important;
+    color: #228099 !important;
+  }
+  .homeButton:enabled:active {
+    background-color: #FFFFFF !important;
+    color: #42bfe0 !important;
+    border: 2px solid #42bfe0 !important;
+  }

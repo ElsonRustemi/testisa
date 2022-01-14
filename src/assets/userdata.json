@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Sheldon cooper",
+    "username": "sheldon.Cooper",
+    "email": "sheldon.Cooper@gmail.com"
+  },
+  {
+    "name": "Leonard Hofstadter",
+    "username": "leonard.hofstadter",
+    "email": "leonard.hofstadter@gmail.com"
+  },
+  {
+    "name": "Howard Wolowitz",
+    "username": "howard.wolowitz",
+    "email": "howard.wolowitz@gmail.com"
+  },
+
+  {
+    "name": "Rajesh Koothrappali",
+    "username": "rajesh.koothrappali",
+    "email": "rajesh.koothrappali@gmail.com"
+  },
+  {
+    "name": " Amy Fowler",
+    "username": "amy.fowler",
+    "email": "amy.fowler@gmail.com"
+  },
+  {
+    "name": "Bernadette Rostenkowski",
+    "username": "bernadette.rostenkowski",
+    "email": "bernadette.rostenkowski@gmail.com"
+  },
+  {
+    "name": "Penny Hofstadter",
+    "username": "penny.hofstadter",
+    "email": "penny.hofstadter@gmail.com"
+  }
+]

@@ -1,0 +1,20 @@
+export interface Cfdata {
+  uniqueId;
+  declarationCode;
+  loadingList;
+  totalPackage;
+  countryOfDeparture;
+  countryOfTransit;
+  countryOfDestination;
+  placeOfLoading;
+  grossMass;
+  netMass;
+  value;
+  containerNo;
+  driverCompartmentplate;
+  trailerPlate;
+  sealNumber;
+  riskIndex;
+  vesselImoCode;
+  scannerImages;
+}

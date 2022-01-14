@@ -1,0 +1,53 @@
+<div class="flex justify-content-center">
+  <div class="border-0 w-full border-round shadow-5 m-6">
+    <p-table #dt1 [value]="usrData" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" autoLayout="true" responsiveLayout="stack" [resizableColumns]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="rowsPerPage"
+      [globalFilterFields]="['name', 'username', 'email']">
+      <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center flex justify-content-between">
+          <div class="mt-2">Manage Users</div>
+          <div>
+            <span class="p-input-icon-left p-ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search keyword" />
+            </span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="font-family: sans-serif;" pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th style="font-family: sans-serif;" pSortableColumn="username">Username<p-sortIcon field="username">
+            </p-sortIcon>
+          </th>
+          <th style="font-family: sans-serif;" pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th style="font-family: sans-serif;">Manage</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-usrData>
+        <tr>
+          <td style="font-family: sans-serif;">{{usrData.name}}</td>
+          <td style="font-family: sans-serif;">{{usrData.username}}</td>
+          <td style="font-family: sans-serif;">{{usrData.email}}</td>
+          <td style="font-family: sans-serif;"><button class="p-button-primary" pButton label="Manage" (click)="mangageUsers()"></button></td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="paginatorleft">
+      </ng-template>
+      <ng-template pTemplate="paginatorright">
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+<p-dialog header="Manage User" [(visible)]="display">
+  Do you want to edit the users information or delete the user?
+  <div class="flex justify-content-evenly m-4">
+    <button class="ml-2 p-button-help" pButton label="Edit"></button>
+    <button class="ml-2 p-button-danger" pButton label="Delete"></button>
+  </div>
+</p-dialog>

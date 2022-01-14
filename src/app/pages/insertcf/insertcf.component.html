@@ -1,0 +1,213 @@
+<div class="h-full">
+  <!-- <div class="border-bottom-1">
+    <div class="p-text-left text-lg m-3" style="font-family: sans-serif;">Insert CF Data</div>
+  </div> -->
+
+  <div class="flex justify-content-center m-4">
+    <div class="flex justify-content-between border-0 w-full h-4rem shadow-5" style="border-radius: 20px;">
+      <div class="p-text-left text-xl m-3" style="font-family: sans-serif;">Insert CF Data</div>
+      <div class="m-2">
+        <!-- <button class="" pButton type="submit" (click)="showDialog()" label="Load CSV"></button> -->
+        <div>
+          <p-fileUpload mode="basic" name="demo[]"
+          accept=".csv" maxFileSize="1000000" (uploadHandler)="myUploader($event)" (onSelect)="showDialog($event)"
+          [auto]="true" chooseLabel="Load CSV">
+          </p-fileUpload>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="field grid">
+    <label for="" class="col-12 mb-2 md:col-2 md:mb-0">Test</label>
+    <div>
+      <input class="ml-2" nbInput>
+    </div>
+  </div>
+
+  <div class="m-2">
+    <label for="">Another test</label>
+    <input class="ml-2" nbInput>
+  </div> -->
+
+
+<form [formGroup]="cfFrom" (ngSubmit)="oncfFromSubmit()">
+
+  <div class="flex justify-content-center">
+    <div class="border-0 w-full h-full shadow-7 m-4" style="border-radius: 20px;">
+      <div class="card border-0 m-4">
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Declaration
+            Code</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="declarationCode" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Loading
+            List</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="loadingList" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Total
+            Packages</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="totalPackage" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Country of
+            Departure</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="countryOfDeparture" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Country of
+            Transit</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="countryOfTransit" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Country of
+            Destination</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="countryOfDestination" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Place of
+            Loading</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="placeOfLoading" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Gross Mass
+            (Kg)</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="grossMass" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Net Mass
+            (Kg)</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="netMass" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Value</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="value" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Container No (BIC
+            Code)</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="containerNo" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Driver
+            Compartment Plate</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="driverCompartmentPlate" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Trailer
+            Plate</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="trailerPlate" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Seal
+            Number</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="sealNumber" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="firstname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Risk
+            Index</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="riskIndex" pInputText id="firstname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Vessel IMO
+            Code</label>
+          <div class="col-12 md:col-10">
+            <input formControlName="vesselImoCode" pInputText id="lastname4" type="text" class="inputfield w-full">
+          </div>
+        </div>
+        <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Scanner
+            Image</label>
+
+          <!-- <div class="col-12 mb-2 md:col-2 md:mb-0">
+          <label for="lastname4" style="font-family: sans-serif;">Scanner Image</label>
+          </div> -->
+          <div class="col-12 mb-2 md:col-2 md:mb-0" *ngFor="let item of uploadedFiles">
+            <input formControlName="scannerImages" pInputText id="lastname4" type="text" class="inputfield" [(ngModel)]="item.name">
+          </div>
+          <div class="col-12 mb-2 md:col-2 md:mb-0 ml-2">
+            <p-fileUpload mode="basic" name="demo[]" accept="image/*" customUpload="true" maxFileSize="1000000"
+            (uploadHandler)="myUploaderImage($event)" [auto]="true" chooseLabel="Upload Image">
+            </p-fileUpload>
+          </div>
+        </div>
+        <!-- <div class="field grid">
+          <label for="lastname4" class="col-12 mb-2 md:col-2 md:mb-0" style="font-family: sans-serif;">Scanner Image</label>
+          <div class="col-12 md:col-10">
+            <input pInputText id="lastname4" type="text" class="inputfield">
+            <button pButton label="Upload Image" class="ml-2" style="font-family: sans-serif;"></button>
+            <div class="">
+              <p-fileUpload mode="basic" name="demo[]"
+              accept="image/*" maxFileSize="1000000" (onUpload)="onUpload($event)"
+              [auto]="true" chooseLabel="Load CSV">
+              </p-fileUpload>
+            </div>
+          </div>
+        </div> -->
+        <div class="flex justify-content-center">
+          <button pButton type="submit" [disabled]="!cfFrom.valid" label="Insert" style="font-family: sans-serif;"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+  <div class="m-2"></div>
+
+  <!-- <div class="border-top-1">
+    <div class="m-6"></div>
+  </div> -->
+
+
+</div>
+
+
+  <p-dialog header="Success" [(visible)]="display">
+    <p class="text-lg">Data loaded correctly. Click upload to continue.</p>
+    <div class="flex justify-content-center">
+      <button class="m-2 p-button-info" pButton type="button" label="Upload" [routerLink]="['/pages/home/cflist']"></button>
+      <!-- <button class="m-2 p-button-secondary" pButton type="button" label="Compare" [routerLink]="['/2']"></button>
+      <button class="m-2 p-button-success" pButton type="button" label="Analyze CF"></button> -->
+    </div>
+  </p-dialog>
+
+
+  <p-dialog header="CF Form" [(visible)]="displayCfConfirmation">
+    Form submitted correctly. Go to CF List to view your newly added entry.
+  </p-dialog>
+
+<!-- <router-outlet></router-outlet> -->
